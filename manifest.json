@@ -1,0 +1,41 @@
+{
+  "name": "Estilo Activo - Tienda Deportiva",
+  "short_name": "Estilo Activo",
+  "description": "Tu tienda deportiva de confianza. Encuentra camisetas Adidas, tenis, jeans, cascos para motos y equipos deportivos de primera calidad.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#4ecdc4",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "favicon-64x64.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "favicon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "favicon-128x128.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["shopping", "sports", "lifestyle"],
+  "lang": "es",
+  "scope": "/"
+}
