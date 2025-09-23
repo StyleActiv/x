@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba de WhatsApp Condicional - Estilo Activo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+        .test-section h3 {
+            color: #4ecdc4;
+            margin-top: 0;
+        }
+        .btn {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .btn-secondary {
+            background: #6c757d;
+        }
+        .btn-info {
+            background: #17a2b8;
+        }
+        .info-box {
+            background: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .log-box {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: monospace;
+            font-size: 14px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-weight: 600;
+        }
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Prueba de WhatsApp Condicional</h1>
+        <p style="text-align: center; color: #666;">Estilo Activo - Implementación de Apertura Condicional</p>
+        
+        <div class="info-box">
+            <strong>📱 Información del Dispositivo:</strong>
+            <div id="device-info"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>🔧 Funciones de Prueba</h3>
+            <button class="btn" onclick="testBasic()">Prueba Básica</button>
+            <button class="btn" onclick="testConditional()">Prueba Condicional</button>
+            <button class="btn btn-secondary" onclick="debugDetection()">Debug Detección</button>
+            <button class="btn btn-info" onclick="clearLogs()">Limpiar Logs</button>
+        </div>
+
+        <div class="test-section">
+            <h3>📊 Estado de la Prueba</h3>
+            <div id="test-status" class="status info">Listo para probar</div>
+        </div>
+
+        <div class="test-section">
+            <h3>📝 Logs de Consola</h3>
+            <div id="console-log" class="log-box">Los logs aparecerán aquí...</div>
+        </div>
+
+        <div class="test-section">
+            <h3>ℹ️ Instrucciones</h3>
+            <ol>
+                <li><strong>Prueba Básica:</strong> Ejecuta la funcionalidad normal de WhatsApp</li>
+                <li><strong>Prueba Condicional:</strong> Ejecuta la detección condicional con logs detallados</li>
+                <li><strong>Debug Detección:</strong> Muestra información detallada del dispositivo</li>
+                <li>Observa los logs en la consola del navegador (F12)</li>
+                <li>En móviles, verifica si se abre la app o redirige a web</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        // Incluir las funciones del script principal
+        // (Estas funciones deben estar disponibles desde script.js)
+        
+        // Función para mostrar información del dispositivo
+        function updateDeviceInfo() {
+            const isMobile = isMobileDevice();
+            const userAgent = navigator.userAgent;
+            const screenWidth = window.innerWidth;
+            const touchSupport = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+            
+            document.getElementById('device-info').innerHTML = `
+                <div><strong>Es móvil:</strong> ${isMobile ? 'SÍ' : 'NO'}</div>
+                <div><strong>Ancho de pantalla:</strong> ${screenWidth}px</div>
+                <div><strong>Soporte táctil:</strong> ${touchSupport ? 'SÍ' : 'NO'}</div>
+                <div><strong>User Agent:</strong> ${userAgent}</div>
+            `;
+        }
+
+        // Función para actualizar el estado
+        function updateStatus(message, type = 'info') {
+            const statusDiv = document.getElementById('test-status');
+            statusDiv.textContent = message;
+            statusDiv.className = `status ${type}`;
+        }
+
+        // Función para agregar logs
+        function addLog(message) {
+            const logDiv = document.getElementById('console-log');
+            const timestamp = new Date().toLocaleTimeString();
+            logDiv.innerHTML += `<div>[${timestamp}] ${message}</div>`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        // Función para limpiar logs
+        function clearLogs() {
+            document.getElementById('console-log').innerHTML = 'Logs limpiados...';
+        }
+
+        // Función de prueba básica
+        function testBasic() {
+            updateStatus('Ejecutando prueba básica...', 'info');
+            addLog('Iniciando prueba básica de WhatsApp');
+            
+            try {
+                if (typeof testWhatsAppFunctionality === 'function') {
+                    testWhatsAppFunctionality();
+                    addLog('Prueba básica ejecutada correctamente');
+                    updateStatus('Prueba básica ejecutada - Revisa la consola', 'success');
+                } else {
+                    addLog('ERROR: Función testWhatsAppFunctionality no encontrada');
+                    updateStatus('Error: Funciones no cargadas', 'error');
+                }
+            } catch (error) {
+                addLog(`ERROR: ${error.message}`);
+                updateStatus('Error en la prueba básica', 'error');
+            }
+        }
+
+        // Función de prueba condicional
+        function testConditional() {
+            updateStatus('Ejecutando prueba condicional...', 'info');
+            addLog('Iniciando prueba condicional de WhatsApp');
+            
+            try {
+                if (typeof testWhatsAppConditional === 'function') {
+                    testWhatsAppConditional();
+                    addLog('Prueba condicional ejecutada correctamente');
+                    updateStatus('Prueba condicional ejecutada - Revisa la consola', 'success');
+                } else {
+                    addLog('ERROR: Función testWhatsAppConditional no encontrada');
+                    updateStatus('Error: Funciones no cargadas', 'error');
+                }
+            } catch (error) {
+                addLog(`ERROR: ${error.message}`);
+                updateStatus('Error en la prueba condicional', 'error');
+            }
+        }
+
+        // Función de debug
+        function debugDetection() {
+            updateStatus('Ejecutando debug de detección...', 'info');
+            addLog('Iniciando debug de detección móvil');
+            
+            try {
+                if (typeof debugMobileDetection === 'function') {
+                    debugMobileDetection();
+                    addLog('Debug ejecutado correctamente');
+                    updateStatus('Debug ejecutado - Revisa la consola', 'success');
+                } else {
+                    addLog('ERROR: Función debugMobileDetection no encontrada');
+                    updateStatus('Error: Funciones no cargadas', 'error');
+                }
+            } catch (error) {
+                addLog(`ERROR: ${error.message}`);
+                updateStatus('Error en el debug', 'error');
+            }
+        }
+
+        // Interceptar console.log para mostrar en la página
+        const originalLog = console.log;
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            addLog(args.join(' '));
+        };
+
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            updateDeviceInfo();
+            addLog('Página de prueba cargada');
+            addLog('Asegúrate de que script.js esté cargado para que las funciones estén disponibles');
+        });
+
+        // Redimensionar ventana
+        window.addEventListener('resize', updateDeviceInfo);
+    </script>
+
+    <!-- Incluir el script principal -->
+    <script src="script.js"></script>
+</body>
+</html>
