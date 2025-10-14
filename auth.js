@@ -8,6 +8,14 @@ class AuthSystem {
         
         this.init();
     }
+    
+    // Función para capitalizar la primera letra de cada palabra
+    capitalizeWords(text) {
+        if (!text) return text;
+        return text.split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+            .join(' ');
+    }
 
     init() {
         this.checkAuthStatus();
@@ -159,6 +167,14 @@ class AuthSystem {
         
         const formData = new FormData(e.target);
         const userData = Object.fromEntries(formData.entries());
+        
+        // Capitalizar nombre y apellido
+        if (userData.name) {
+            userData.name = this.capitalizeWords(userData.name);
+        }
+        if (userData.lastname) {
+            userData.lastname = this.capitalizeWords(userData.lastname);
+        }
         
         // Validar datos
         const validation = this.validateRegistration(userData);
@@ -406,8 +422,16 @@ class AuthSystem {
 
     // Validaciones
     validateEmail(email) {
+        // Convertir a minúsculas
+        email = email.toLowerCase();
+        
+        // Validar que termine en uno de los dominios permitidos
+        const validDomains = ['@gmail.com', '@hotmail.com', '@udi.edu.co'];
+        const hasDomain = validDomains.some(domain => email.endsWith(domain));
+        
+        // Validar formato general de correo
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
+        return emailRegex.test(email) && hasDomain;
     }
 
     validateColombianPhone(phone) {
@@ -1394,6 +1418,14 @@ class AuthSystem {
         
         const formData = new FormData(e.target);
         const userData = Object.fromEntries(formData.entries());
+        
+        // Capitalizar nombre y apellido
+        if (userData.name) {
+            userData.name = this.capitalizeWords(userData.name);
+        }
+        if (userData.lastname) {
+            userData.lastname = this.capitalizeWords(userData.lastname);
+        }
         
         // Validar datos
         const validation = this.validateRegistration(userData);

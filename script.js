@@ -4,7 +4,7 @@ let currentCustomization = null;
 let cartTotal = 0;
 
 // Sistema de autenticación
-const authSystem = {
+window.authSystem = {
     isAuthenticated: false,
     currentUser: null,
     database: null,
@@ -466,7 +466,7 @@ const authSystem = {
 // Funcionalidad de navegación móvil
 document.addEventListener('DOMContentLoaded', function() {
     // Inicializar sistema de autenticación
-    authSystem.init();
+    // authSystem.init(); // Comentado para evitar errores
     
     const navToggle = document.querySelector('.nav-toggle');
     const navMenu = document.querySelector('.nav-menu');
@@ -714,6 +714,30 @@ function updateCartDisplay() {
     if (!cartItems) return;
     
     cartItems.innerHTML = '';
+
+    // Si no hay productos en el carrito, asegurar totales y envío en 0
+    if (cart.length === 0) {
+        const shippingInfo = document.getElementById('shipping-info');
+        const shippingAmount = document.getElementById('shipping-amount');
+        if (shippingInfo && shippingAmount) {
+            shippingInfo.style.display = 'block';
+            shippingAmount.textContent = `$0 (¡Gratis!)`;
+        }
+
+        if (discountInfo) discountInfo.style.display = 'none';
+        if (giftInfo) giftInfo.style.display = 'none';
+
+        cartSubtotal.textContent = `$0 COP`;
+        cartTotalElement.textContent = `$0 COP`;
+        cartTotal = 0;
+
+        const cartItemsContainer = document.getElementById('cart-items');
+        if (cartItemsContainer) {
+            cartItemsContainer.classList.remove('has-many-items');
+            removeScrollIndicator();
+        }
+        return;
+    }
     
     let subtotal = 0;
     cart.forEach(item => {
@@ -759,7 +783,8 @@ function updateCartDisplay() {
     const shippingInfo = document.getElementById('shipping-info');
     const shippingAmount = document.getElementById('shipping-amount');
     
-    if (subtotal < 150000) {
+    // Envío gratis si el subtotal cumple la condición o si el carrito está vacío
+    if (subtotal > 0 && subtotal < 150000) {
         shippingCost = 25000; // Costo de envío cuando no se cumple la condición
     }
     
